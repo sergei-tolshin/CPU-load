@@ -24,33 +24,33 @@
 ### Запуск сервера
 1. создайте виртуальное окружение
 ```bash
-$ python3 -m venv venv
+python3 -m venv venv
 ```
 2. активируйте виртуальное окружение
 ```bash
-$ source venv/bin/activate
+source venv/bin/activate
 ```
 3. разверните сервер 
 ```bash
-$ pip3 install git+https://github.com/sergei-tolshin/CPU-load.git#egg=cpuload
+pip3 install git+https://github.com/sergei-tolshin/CPU-load.git#egg=cpuload
 ```
 4. запустите сервер
 ```bash
-$ cpuload --host 0.0.0.0 --port 8001
+cpuload --host 0.0.0.0 --port 8001
 ```
 
 ### Запуск клиента-демона
 1. Загрузите файл
 ```bash
-$ wget https://raw.githubusercontent.com/sergei-tolshin/CPU-load/main/bash/cpu_load.sh
+wget https://raw.githubusercontent.com/sergei-tolshin/CPU-load/main/bash/cpu_load.sh
 ```
 2. Измените права на файл
 ```bash
-$ chmod a+x cpu_load.sh
+chmod a+x cpu_load.sh
 ```
 3. Запустите клиента-демона, заменив `0.0.0.0` на ip адрес вашего сервера
 ```bash
-$ nohup cpu_load.sh -h 0.0.0.0 -p 8001 &
+nohup cpu_load.sh -h 0.0.0.0 -p 8001 &
 ```
 
 

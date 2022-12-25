@@ -1,0 +1,63 @@
+Загрузки CPU клиента
+---
+tags:
+  - clients
+parameters:
+  - name: client_id
+    in: path
+    required: true
+    type: string
+    format: uuid
+responses:
+  200:
+    description: Success
+    schema:
+      type: array
+      items:
+        $ref: '#/definitions/ClientCPULoads'
+  404:
+    description: Client not found
+definitions:
+  ClientCPULoad:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uuid
+      load:
+        type: number
+        format: float
+      created:
+        type: string
+        format: date-time
+  ClientCPULoads:
+    type: object
+    properties:
+      all_aggr:
+        type: object
+        properties:
+          min:
+            type: number
+            format: float
+          max:
+            type: number
+            format: float
+          avg:
+            type: number
+            format: float
+      last_100_aggr:
+        type: object
+        properties:
+          min:
+            type: number
+            format: float
+          max:
+            type: number
+            format: float
+          avg:
+            type: number
+            format: float
+      cpu_loads:
+        type: array
+        items:
+          $ref: '#/definitions/ClientCPULoad'

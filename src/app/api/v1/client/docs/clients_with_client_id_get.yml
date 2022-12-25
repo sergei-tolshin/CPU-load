@@ -1,0 +1,32 @@
+Информация о клиенте
+---
+tags:
+  - clients
+parameters:
+  - name: client_id
+    in: path
+    required: true
+    type: string
+    format: uuid
+responses:
+  200:
+    description: Success
+    schema:
+      $ref: '#/definitions/ClientDetails'
+  404:
+    description: Client not found
+definitions:
+  ClientDetails:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uuid
+      name:
+        type: string
+      ip:
+        type: string
+        format: ipv4
+      created:
+        type: string
+        format: date-time

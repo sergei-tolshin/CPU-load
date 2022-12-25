@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <h2>CPU utilization</h2>
+    <p class="h4">
+        Client: <small class="text-muted">{{ context.client.name }}</small>
+    </p>
+    <button type="button" class="btn btn-primary" id="upd">Update</button>
+    <p id="output"></p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">ALL</th>
+                <th scope="col">Last 100</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="table-success">
+                <th scope="row">MIN</th>
+                <td id="min_load_all"></td>
+                <td id="min_load_last_100"></td>
+            </tr>
+            <tr class="table-danger">
+                <th scope="row">MAX</th>
+                <td id="max_load_all"></td>
+                <td id="max_load_last_100"></td>
+            </tr>
+            <tr class="table-warning">
+                <th scope="row">AVG</th>
+                <td id="avg_load_all"></td>
+                <td id="avg_load_last_100"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-sm" id="sortTable">
+            <thead>
+                <tr>
+                    <th scope="col">Load %</th>
+                    <th scope="col">Created</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</main>
+{% endblock %}
+
+{% block scripts_js %}
+<script>
+    var table = $('#sortTable').DataTable({
+        paging: false,
+        info: false,
+        filter: false,
+        order: [[1, 'desc']],
+        ajax: {
+            "url": "{{ url_for('api.v1.clients.without_client_id') }}{{ context.client.id }}/cpu_loads/",
+            "dataSrc": "cpu_loads",
+        },
+        columns: [
+            { data: 'load' },
+            { data: 'created' },
+        ],
+    });
+
+
+    $('#upd').on('click', function (event) {
+        $.ajax({
+            type: 'GET',
+            url: "{{ url_for('api.v1.clients.without_client_id') }}{{ context.client.id }}/cpu_loads/",
+            contentType: 'application/json;charset=UTF-8',
+        }).done(function (data) {
+            $('#min_load_all').text(data.all_aggr.min + ' %');
+            $('#max_load_all').text(data.all_aggr.max + ' %');
+            $('#avg_load_all').text(data.all_aggr.avg + ' %');
+
+            $('#min_load_last_100').text(data.last_100_aggr.min + ' %');
+            $('#max_load_last_100').text(data.last_100_aggr.max + ' %');
+            $('#avg_load_last_100').text(data.last_100_aggr.avg + ' %');
+
+            table.clear().draw();
+            table.rows.add(data.cpu_loads).draw();
+        });
+        event.preventDefault();
+    });
+
+    setInterval(function () {
+        $("#upd").trigger( "click" );
+    }, 10000);
+
+    $(window).on('load', function() {
+        $("#upd").trigger( "click" );
+    });
+</script>
+{% endblock %}

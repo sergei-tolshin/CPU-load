@@ -1,0 +1,20 @@
+Список клиентов
+---
+tags:
+  - clients
+responses:
+  200:
+    description: Success
+    schema:
+      type: array
+      items:
+        $ref: '#/definitions/Client'
+definitions:
+  Client:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uuid
+      name:
+        type: string

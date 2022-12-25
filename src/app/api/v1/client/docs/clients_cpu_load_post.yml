@@ -1,0 +1,33 @@
+Получение от клиента информации о загрузке CPU
+---
+tags:
+  - clients
+parameters:
+  - in: body
+    name: body
+    schema:
+      required:
+        - name
+        - ip
+        - load
+      properties:
+        name:
+          type: string
+          description: Имя клиента
+        ip:
+          type: string
+          format: ipv4
+          description: IP адрес
+        load:
+          type: number
+          format: float
+          description: Загрузка cpu в %
+    required: true
+responses:
+  201:
+    description: Created
+    schema:
+      properties:
+        id:
+          type: string
+          format: uuid

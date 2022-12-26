@@ -50,7 +50,7 @@ chmod a+x cpu_load.sh
 ```
 3. Запустите клиента-демона, заменив `0.0.0.0` на ip адрес вашего сервера
 ```bash
-nohup cpu_load.sh -h 0.0.0.0 -p 8001 &
+setsid cpu_load.sh -h 192.168.33.75 -p 8001 > /dev/null 2>&1 < /dev/null &
 ```
 
 
